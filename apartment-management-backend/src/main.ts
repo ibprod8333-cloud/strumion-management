@@ -16,7 +16,7 @@ async function bootstrap() {
 
     app.enableCors({
         origin: [
-            'https://hotel-management-486616.web.app',
+            'https://strumion-management.vercel.app',
             'http://localhost:3001'
         ],
         credentials: true,
