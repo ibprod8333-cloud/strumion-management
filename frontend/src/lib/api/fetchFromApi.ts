@@ -1,6 +1,3 @@
-// lib/api/fetchFromApi.ts
-// import { auth } from "@/lib/firebaseConfig";
-
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 /**
