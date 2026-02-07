@@ -1,0 +1,76 @@
+// lib/api/fetchFromApi.ts
+import { auth } from "@/lib/firebaseConfig";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+
+/**
+ * Generic function for making authenticated API requests.
+ * Supports JSON, text, or blob responses.
+ */
+export async function fetchFromApi<T>(
+    endpoint: string = "",
+    options: RequestInit = {},
+    responseType: "json" | "text" | "blob" = "json"
+): Promise<T> {
+    const url = `${API_URL}${endpoint}`;
+    console.log("Fetching from API:", url);
+    // Optional: Get Firebase auth token if available
+    const currentUser = auth.currentUser;
+    const token = currentUser ? await currentUser.getIdToken() : null;
+
+    const baseHeaders: HeadersInit =
+        options.body instanceof FormData
+            ? options.headers || {} // don't override multipart form data headers
+            : {
+                "Content-Type": "application/json",
+                ...(options.headers || {}),
+            };
+
+    const headers: HeadersInit = {
+        ...baseHeaders,
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
+
+    const response = await fetch(url, {
+        ...options,
+        headers,
+    });
+
+    if (!response.ok) {
+        let errorMessage = `API error: ${response.status}`;
+
+        try {
+            const parsed = await response.json().catch(() => null);
+
+            if (parsed && typeof parsed === "object" && "error" in parsed) {
+                const errorBody = parsed as { error?: string };
+                if (errorBody.error) {
+                    errorMessage = errorBody.error;
+                }
+            }
+
+            // const errorBody: { error?: string } = await response.json();
+            // if (errorBody?.error) {
+            //     errorMessage = errorBody.error;
+            // }
+        } catch (jsonError) {
+            console.warn("Failed to parse error response as JSON:", jsonError);
+        }
+
+        const error = new Error(errorMessage);
+        Object.assign(error, { status: response.status });
+        throw error;
+    }
+
+    if (responseType === "blob") {
+        return (await response.blob()) as T;
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (contentType?.includes("application/json")) {
+        return (await response.json()) as T;
+    }
+
+    const text = await response.text();
+    return text as unknown as T;
+}

@@ -1,0 +1,178 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+    LayoutDashboard,
+    Building2,
+    CalendarClock,
+    CalendarCheck,
+    Users,
+    Euro,
+    FileText,
+    Settings,
+    BarChart3,
+    MessageSquare,
+    Bell,
+    Wrench,
+    Calendar,
+    ClipboardList,
+    Home,
+    LogOut, Building
+} from "lucide-react";
+
+const navItems = [
+    { label: "Overview", href: "/", icon: LayoutDashboard, exact: true },
+
+    // Core Management
+    {
+        section: "Management",
+        items: [
+            { label: "Buildings", href: "/buildings", icon: Building },
+            { label: "Apartments", href: "/apartments", icon: Building2 },
+            { label: "Reservations", href: "/reservations", icon: Calendar, exact: true },
+            { label: "Guests", href: "/guests", icon: Users },
+        ]
+    },
+
+    // Reservations Breakdown
+    {
+        section: "Bookings",
+        items: [
+            { label: "Future Reservations", href: "/reservations/future", icon: CalendarClock },
+            { label: "Past Reservations", href: "/reservations/past", icon: CalendarCheck },
+            { label: "Calendar View", href: "/calendar", icon: Calendar },
+        ]
+    },
+
+    // Financial
+    {
+        section: "Financial",
+        items: [
+            { label: "Payments", href: "/payments", icon: Euro },
+            { label: "Invoices", href: "/invoices", icon: FileText },
+            { label: "Reports", href: "/reports", icon: BarChart3 },
+        ]
+    },
+
+    // Operations
+    {
+        section: "Operations",
+        items: [
+            { label: "Maintenance", href: "/maintenance", icon: Wrench },
+            { label: "Cleaning Schedule", href: "/cleaning", icon: ClipboardList },
+            { label: "Messages", href: "/messages", icon: MessageSquare },
+            { label: "Notifications", href: "/notifications", icon: Bell },
+        ]
+    },
+
+    // Settings
+    {
+        section: "System",
+        items: [
+            { label: "Settings", href: "/settings", icon: Settings },
+        ]
+    },
+];
+
+export default function DashboardSidebar() {
+    const pathname = usePathname();
+
+    const isActive = (href: string, exact?: boolean) => {
+        if (exact) {
+            return pathname === href;
+        }
+        // Check if current path starts with href, but also ensure
+        // it's either an exact match or followed by a slash
+        if (pathname === href) return true;
+        if (pathname.startsWith(href + '/')) return true;
+        return false;
+    };
+
+    return (
+        <aside className="w-64 bg-neutral-900 fixed inset-y-0 left-0 flex flex-col">
+            {/* Header */}
+            <div className="px-6 py-6 border-b border-neutral-800">
+                <Link href="/dashboard" className="block">
+                    <h2 className="text-xl font-bold text-white">Admin Dashboard</h2>
+                    <p className="text-xs text-neutral-400 mt-1">Strumion apartments</p>
+                </Link>
+            </div>
+
+            {/* Navigation - Scrollable */}
+            <nav className="flex-1 px-4 py-4 space-y-6 overflow-y-auto">
+                {navItems.map((item, index) => {
+                    // Section with items
+                    if ('section' in item && item.items) {
+                        return (
+                            <div key={item.section}>
+                                <h3 className="px-4 text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
+                                    {item.section}
+                                </h3>
+                                <div className="space-y-1">
+                                    {item.items.map(({ label, href, icon: Icon, exact }) => {
+                                        const active = isActive(href, exact);
+                                        return (
+                                            <Link
+                                                key={href}
+                                                href={href}
+                                                className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
+                                                    active
+                                                        ? "bg-neutral-800 text-white"
+                                                        : "text-neutral-300 hover:bg-neutral-800 hover:text-white"
+                                                }`}
+                                            >
+                                                <Icon className="h-5 w-5" />
+                                                <span className="text-sm">{label}</span>
+                                            </Link>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        );
+                    }
+
+                    // Single item (like Overview)
+                    if ('href' in item) {
+                        const active = isActive(item.href, item.exact);
+
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
+                                    active
+                                        ? "bg-neutral-800 text-white"
+                                        : "text-neutral-300 hover:bg-neutral-800 hover:text-white"
+                                }`}
+                            >
+                                <item.icon className="h-5 w-5" />
+                                <span className="text-sm">{item.label}</span>
+                            </Link>
+                        );
+                    }
+
+                    return null;
+                })}
+            </nav>
+
+            {/* Footer - User/Logout */}
+            <div className="p-4 border-t border-neutral-800">
+                <Link
+                    href="/frontend/public"
+                    className="flex items-center gap-3 px-4 py-2 rounded-lg text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors"
+                >
+                    <Home className="h-5 w-5" />
+                    <span className="text-sm">Back to Website</span>
+                </Link>
+                <button
+                    onClick={() => {/* Add logout logic */}}
+                    className="w-full flex items-center gap-3 px-4 py-2 mt-1 rounded-lg text-neutral-300 hover:bg-red-900/20 hover:text-red-400 transition-colors"
+                >
+                    <LogOut className="h-5 w-5" />
+                    <span className="text-sm">Logout</span>
+                </button>
+            </div>
+        </aside>
+    );
+}
