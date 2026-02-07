@@ -50,7 +50,7 @@ export function DeleteConfirmationDialog({
                     <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-4 mb-4">
                         <div className="text-sm space-y-1">
                             <p className="text-neutral-600">
-                                <span className="font-medium text-neutral-700">Building:</span> {apartment.building}
+                                <span className="font-medium text-neutral-700">Building:</span> {apartment.buildingName}
                             </p>
                             <p className="text-neutral-600">
                                 <span className="font-medium text-neutral-700">Floor:</span> {apartment.floor},

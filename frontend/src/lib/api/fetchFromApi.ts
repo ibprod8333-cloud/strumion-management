@@ -1,5 +1,5 @@
 // lib/api/fetchFromApi.ts
-import { auth } from "@/lib/firebaseConfig";
+// import { auth } from "@/lib/firebaseConfig";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -15,8 +15,8 @@ export async function fetchFromApi<T>(
     const url = `${API_URL}${endpoint}`;
     console.log("Fetching from API:", url);
     // Optional: Get Firebase auth token if available
-    const currentUser = auth.currentUser;
-    const token = currentUser ? await currentUser.getIdToken() : null;
+    // const currentUser = auth.currentUser;
+    // const token = currentUser ? await currentUser.getIdToken() : null;
 
     const baseHeaders: HeadersInit =
         options.body instanceof FormData
@@ -28,7 +28,7 @@ export async function fetchFromApi<T>(
 
     const headers: HeadersInit = {
         ...baseHeaders,
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        // ...(token ? { Authorization: `Bearer ${token}` } : {}),
     };
 
     const response = await fetch(url, {
