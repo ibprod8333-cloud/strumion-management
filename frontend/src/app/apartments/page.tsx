@@ -1,6 +1,8 @@
 import {ApartmentsList} from "@/components/apartments/ApartmentsList";
 import {useApartmentsApi} from "@/lib/api/useApartmentsApi";
 
+export const dynamic = "force-dynamic";
+
 export default async function ApartmentsPage() {
     const apartmentsApi = useApartmentsApi();
     let apartments;

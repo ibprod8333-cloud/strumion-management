@@ -2,7 +2,7 @@
 const nextConfig = {
     reactStrictMode: true,
     // swcMinify: true,
-    output: "export", // <-- this enables static HTML export
+    // output: "export", // <-- this enables static HTML export
 };
 
 export default nextConfig;
