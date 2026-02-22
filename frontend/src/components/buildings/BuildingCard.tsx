@@ -11,27 +11,6 @@ interface BuildingCardProps {
 
 export function BuildingCard({building, onEdit, onDelete}: BuildingCardProps) {
 
-    // const formatDate = (date: any): string => {
-    //     if (!date) return 'N/A';
-    //
-    //     try {
-    //         const dateObj = new Date(date);
-    //         if (isNaN(dateObj.getTime())) {
-    //             return 'Invalid date';
-    //         }
-    //
-    //         // Force en-US locale for consistent server/client rendering
-    //         return dateObj.toLocaleDateString('en-US', {
-    //             year: 'numeric',
-    //             month: '2-digit',
-    //             day: '2-digit'
-    //         });
-    //     } catch (error) {
-    //         console.error('Error formatting date:', error);
-    //         return 'Invalid date';
-    //     }
-    // };
-
     return (
         <div className="bg-white rounded-lg border border-neutral-200 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-start justify-between mb-4">
@@ -76,11 +55,20 @@ export function BuildingCard({building, onEdit, onDelete}: BuildingCardProps) {
                 )}
             </div>
 
+
             {building.createdAt && (
                 <div className="mt-4 pt-4 border-t border-neutral-100">
                     <p className="text-xs text-neutral-400">
                         Created on {new Date(building.createdAt).toLocaleDateString('en-US')}
                     </p>
+                </div>
+            )}
+
+            {building.isConstruction && (
+                <div className="mt-2">
+                    <span className="px-2 py-1 text-xs bg-red-100 text-yellow-800 rounded-full">
+                        Under Construction
+                    </span>
                 </div>
             )}
         </div>

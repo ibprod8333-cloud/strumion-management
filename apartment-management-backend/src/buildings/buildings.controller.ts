@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Query} from '@nestjs/common';
 import {BuildingsService} from "./buildings.service";
 import {CreateBuildingDto} from "./dto/create-building.dto";
 import {Building} from "./interfaces/building.interface";
@@ -12,11 +12,21 @@ export class BuildingsController {
 
     @Post()
     create(@Body() createBuildingDto: CreateBuildingDto): Promise<Building> {
+        console.log(createBuildingDto);
         return this.buildingsService.create(createBuildingDto);
     }
 
+    // @Get()
+    // findAll(): Promise<Building[]> {
+    //     return this.buildingsService.findAll();
+    // }
+
     @Get()
-    findAll(): Promise<Building[]> {
+    findAll(@Query('construction') construction?: string): Promise<Building[]> {
+        // If construction query param is 'true', filter only construction buildings
+        if (construction === 'true') {
+            return this.buildingsService.findAllConstruction();
+        }
         return this.buildingsService.findAll();
     }
 

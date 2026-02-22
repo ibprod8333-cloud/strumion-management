@@ -18,7 +18,13 @@ export class BuildingsService {
 
         return {
             id: doc.id,
-            ...data,
+            name: data.name,
+            address: data.address,
+            city: data.city,
+            country: data.country,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            isConstruction: data.isConstruction ?? false, // ✅ fallback for old docs
             createdAt: data.createdAt?.toDate?.() || data.createdAt,
             updatedAt: data.updatedAt?.toDate?.() || data.updatedAt,
         } as Building;
@@ -29,6 +35,7 @@ export class BuildingsService {
         const now = admin.firestore.FieldValue.serverTimestamp();
 
         const cleanedBuilding = Object.entries(building).reduce((acc, [key, value]) => {
+            console.log(value);
             if (value !== undefined) {
                 acc[key] = value;
             }
@@ -37,6 +44,8 @@ export class BuildingsService {
 
         await docRef.set({
             ...cleanedBuilding,
+            isConstruction: building.isConstruction ?? false, // ✅ enforce
+            _schemaVersion: 3,
             createdAt: now,
             updatedAt: now,
         });
@@ -60,14 +69,34 @@ export class BuildingsService {
         return {id: doc.id, ...(doc.data() as Building)};
     }
 
+    async findAllConstruction(): Promise<Building[]> {
+        const snapshot = await this.firebaseAdmin.firestore
+            .collection(this.collectionName)
+            .where('isConstruction', '==', true)
+            .get();
+
+        return snapshot.docs
+            .map(doc => this.docToBuilding(doc))
+            .filter((building): building is Building => building !== null);
+    }
+
     async update(id: string, update: Partial<Building>): Promise<Building> {
         const docRef = this.firebaseAdmin.firestore.collection(this.collectionName).doc(id);
+
+        const cleanedUpdate = Object.entries(update).reduce((acc, [key, value]) => {
+            if (value !== undefined) {
+                acc[key] = value;
+            }
+            return acc;
+        }, {} as any);
+
         await docRef.update({
-            ...update,
+            ...cleanedUpdate,
             updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         });
+
         const updatedDoc = await docRef.get();
-        return {id: docRef.id, ...(updatedDoc.data() as Building)};
+        return this.docToBuilding(updatedDoc)!;
     }
 
     async remove(id: string): Promise<void> {

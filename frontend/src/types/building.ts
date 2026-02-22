@@ -8,6 +8,7 @@ export interface Building {
     longitude?: number;
     createdAt?: Date;
     updatedAt?: Date;
+    isConstruction: boolean;
 }
 
 export interface CreateBuildingDto {
@@ -17,6 +18,7 @@ export interface CreateBuildingDto {
     country: string;
     latitude?: number;
     longitude?: number;
+    isConstruction?: boolean;
 }
 
 export interface UpdateBuildingDto {

@@ -8,6 +8,9 @@ export function useBuildingsApi() {
         getAll: (): Promise<Building[]> =>
             fetchFromApi<Building[]>(BUILDINGS_ENDPOINT),
 
+        getAllConstruction: (): Promise<Building[]> =>
+            fetchFromApi(`${BUILDINGS_ENDPOINT}?construction=true`),
+
         getOne: (id: string): Promise<Building> =>
             fetchFromApi<Building>(`${BUILDINGS_ENDPOINT}/${id}`),
 

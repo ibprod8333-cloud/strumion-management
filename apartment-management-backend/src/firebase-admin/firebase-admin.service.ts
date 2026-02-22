@@ -5,6 +5,7 @@ import {join} from 'path';
 @Injectable()
 export class FirebaseAdminService {
     public firestore: admin.firestore.Firestore;
+    public auth: admin.auth.Auth;
 
     constructor() {
         if (!admin.apps.length) {
@@ -17,6 +18,7 @@ export class FirebaseAdminService {
             });
         }
         this.firestore = admin.firestore();
+        this.auth = admin.auth();
 
         this.firestore.settings({
             preferRest: true

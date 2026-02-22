@@ -1,4 +1,4 @@
-import {IsString, IsOptional, IsNumber} from 'class-validator';
+import {IsString, IsOptional, IsNumber, IsBoolean} from 'class-validator';
 
 export class CreateBuildingDto {
     @IsString()
@@ -20,4 +20,7 @@ export class CreateBuildingDto {
     @IsOptional()
     @IsNumber()
     longitude?: number;
+
+    @IsBoolean()
+    isConstruction?: boolean;
 }

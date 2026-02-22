@@ -8,4 +8,5 @@ export interface Building {
     longitude?: number;    // Optional geolocation
     createdAt?: Date;      // Timestamp
     updatedAt?: Date;      // Timestamp
+    isConstruction?: boolean;
 }

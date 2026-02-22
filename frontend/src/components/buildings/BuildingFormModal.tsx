@@ -26,6 +26,7 @@ export function BuildingFormModal({
         country: "",
         latitude: undefined,
         longitude: undefined,
+        isConstruction: false,
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -39,6 +40,7 @@ export function BuildingFormModal({
                 country: building.country,
                 latitude: building.latitude,
                 longitude: building.longitude,
+                isConstruction: building.isConstruction,
             });
         } else {
             setFormData({
@@ -48,6 +50,7 @@ export function BuildingFormModal({
                 country: "",
                 latitude: undefined,
                 longitude: undefined,
+                isConstruction: false,
             });
         }
         setError(null);
@@ -200,6 +203,24 @@ export function BuildingFormModal({
                                 placeholder="e.g., 21.4280"
                             />
                         </div>
+                    </div>
+
+                    <div className="md:col-span-2 flex items-center gap-3 mt-2">
+                        <input
+                            type="checkbox"
+                            name="isConstruction"
+                            checked={formData.isConstruction}
+                            onChange={(e) =>
+                                setFormData(prev => ({
+                                    ...prev,
+                                    isConstruction: e.target.checked,
+                                }))
+                            }
+                            className="h-4 w-4"
+                        />
+                        <label className="text-sm font-medium text-neutral-700">
+                            Building is under construction
+                        </label>
                     </div>
 
                     {/* Footer */}

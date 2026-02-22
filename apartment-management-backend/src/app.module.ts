@@ -18,7 +18,11 @@ import {PaymentsModule} from './payments/payments.module';
 import {AuthModule} from './auth/auth.module';
 import {BuildingsModule} from './buildings/buildings.module';
 import {FirebaseAdminModule} from './firebase-admin/firebase-admin.module';
-import { ApartmentsModule } from './apartments/apartments.module';
+import {ApartmentsModule} from './apartments/apartments.module';
+import {MigrationService} from "./migrations/migration.service";
+import {ConstructionExpensesModule} from "./construction-expenses/construction-expenses.module";
+import {ExchangeRateService} from "./common/currency/exchange-rate.service";
+import {ExchangeRateModule} from "./common/currency/exchange-rate.module";
 
 @Module({
     imports: [
@@ -32,7 +36,14 @@ import { ApartmentsModule } from './apartments/apartments.module';
         AuthModule,
         BuildingsModule,
         FirebaseAdminModule,
-        ApartmentsModule
+        ApartmentsModule,
+        ConstructionExpensesModule,
+        AuthModule,
+        ExchangeRateModule
+    ],
+    providers: [
+        MigrationService,
+        ExchangeRateService
     ],
 })
 export class AppModule {

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import {usePathname} from "next/navigation";
 import {
     LayoutDashboard,
     Building2,
@@ -18,20 +18,20 @@ import {
     Calendar,
     ClipboardList,
     Home,
-    LogOut, Building
+    LogOut, Building, Hammer
 } from "lucide-react";
 
 const navItems = [
-    { label: "Overview", href: "/", icon: LayoutDashboard, exact: true },
+    {label: "Overview", href: "/", icon: LayoutDashboard, exact: true},
 
     // Core Management
     {
         section: "Management",
         items: [
-            { label: "Buildings", href: "/buildings", icon: Building },
-            { label: "Apartments", href: "/apartments", icon: Building2 },
-            { label: "Reservations", href: "/reservations", icon: Calendar, exact: true },
-            { label: "Guests", href: "/guests", icon: Users },
+            {label: "Buildings", href: "/buildings", icon: Building},
+            {label: "Apartments", href: "/apartments", icon: Building2},
+            {label: "Reservations", href: "/reservations", icon: Calendar, exact: true},
+            {label: "Guests", href: "/guests", icon: Users},
         ]
     },
 
@@ -39,9 +39,9 @@ const navItems = [
     {
         section: "Bookings",
         items: [
-            { label: "Future Reservations", href: "/reservations/future", icon: CalendarClock },
-            { label: "Past Reservations", href: "/reservations/past", icon: CalendarCheck },
-            { label: "Calendar View", href: "/calendar", icon: Calendar },
+            {label: "Future Reservations", href: "/reservations/future", icon: CalendarClock},
+            {label: "Past Reservations", href: "/reservations/past", icon: CalendarCheck},
+            {label: "Calendar View", href: "/calendar", icon: Calendar},
         ]
     },
 
@@ -49,9 +49,10 @@ const navItems = [
     {
         section: "Financial",
         items: [
-            { label: "Payments", href: "/payments", icon: Euro },
-            { label: "Invoices", href: "/invoices", icon: FileText },
-            { label: "Reports", href: "/reports", icon: BarChart3 },
+            {label: "Payments", href: "/payments", icon: Euro},
+            {label: "Invoices", href: "/invoices", icon: FileText},
+            {label: "Construction Expenses", href: "/construction-expenses", icon: Hammer},
+            {label: "Reports", href: "/reports", icon: BarChart3},
         ]
     },
 
@@ -59,10 +60,10 @@ const navItems = [
     {
         section: "Operations",
         items: [
-            { label: "Maintenance", href: "/maintenance", icon: Wrench },
-            { label: "Cleaning Schedule", href: "/cleaning", icon: ClipboardList },
-            { label: "Messages", href: "/messages", icon: MessageSquare },
-            { label: "Notifications", href: "/notifications", icon: Bell },
+            {label: "Maintenance", href: "/maintenance", icon: Wrench},
+            {label: "Cleaning Schedule", href: "/cleaning", icon: ClipboardList},
+            {label: "Messages", href: "/messages", icon: MessageSquare},
+            {label: "Notifications", href: "/notifications", icon: Bell},
         ]
     },
 
@@ -70,7 +71,7 @@ const navItems = [
     {
         section: "System",
         items: [
-            { label: "Settings", href: "/settings", icon: Settings },
+            {label: "Settings", href: "/settings", icon: Settings},
         ]
     },
 ];
@@ -110,7 +111,7 @@ export default function DashboardSidebar() {
                                     {item.section}
                                 </h3>
                                 <div className="space-y-1">
-                                    {item.items.map(({ label, href, icon: Icon, exact }) => {
+                                    {item.items.map(({label, href, icon: Icon, exact}) => {
                                         const active = isActive(href, exact);
                                         return (
                                             <Link
@@ -122,7 +123,7 @@ export default function DashboardSidebar() {
                                                         : "text-neutral-300 hover:bg-neutral-800 hover:text-white"
                                                 }`}
                                             >
-                                                <Icon className="h-5 w-5" />
+                                                <Icon className="h-5 w-5"/>
                                                 <span className="text-sm">{label}</span>
                                             </Link>
                                         );
@@ -146,7 +147,7 @@ export default function DashboardSidebar() {
                                         : "text-neutral-300 hover:bg-neutral-800 hover:text-white"
                                 }`}
                             >
-                                <item.icon className="h-5 w-5" />
+                                <item.icon className="h-5 w-5"/>
                                 <span className="text-sm">{item.label}</span>
                             </Link>
                         );
@@ -162,14 +163,15 @@ export default function DashboardSidebar() {
                     href="/frontend/public"
                     className="flex items-center gap-3 px-4 py-2 rounded-lg text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors"
                 >
-                    <Home className="h-5 w-5" />
+                    <Home className="h-5 w-5"/>
                     <span className="text-sm">Back to Website</span>
                 </Link>
                 <button
-                    onClick={() => {/* Add logout logic */}}
+                    onClick={() => {/* Add logout logic */
+                    }}
                     className="w-full flex items-center gap-3 px-4 py-2 mt-1 rounded-lg text-neutral-300 hover:bg-red-900/20 hover:text-red-400 transition-colors"
                 >
-                    <LogOut className="h-5 w-5" />
+                    <LogOut className="h-5 w-5"/>
                     <span className="text-sm">Logout</span>
                 </button>
             </div>
